@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>VUE SPA</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://unpkg.com/vuetify@1.0.17/dist/vuetify.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container body-content">
+        <div id="app" v-cloak>
+            <v-app>
+                <spa-toolbar :title="msg"></spa-toolbar>
+                <router-view></router-view>
+            </v-app>
+        </div>
+    </div>
+
+    <script src="./js/site.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.20.1/moment.min.js"></script>
+    <script src="https://unpkg.com/vee-validate@2.0.0-rc.25/dist/vee-validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/vuetify@1.0.17/dist/vuetify.min.js"></script>
+    <!-- Vue Pages and Components here -->
+    <script src='./pages/home.vue.js'></script>
+    <script src='./pages/airports.vue.js'></script>
+    <script src='./pages/components/toolbar.vue.js'></script>
+    <script src='./pages/components/airportcard.vue.js'></script>
+
+    <script>
+        Vue.use(VueRouter);
+        Vue.use(VeeValidate);
+
+        const routes = [{
+                path: '/',
+                component: spahome
+            },
+            {
+                path: '/airports',
+                component: spaAirports
+            }
+        ]
+
+        const router = new VueRouter({
+            routes // short for `routes: routes`
+        })
+
+        var app = new Vue({
+            el: '#app',
+            watch: {},
+            data: {
+                msg: 'Hello'
+            },
+            methods: {},
+            router
+        })
+    </script>
+
+</body>
+
+</html>
