@@ -12,3 +12,6 @@
   db.settings({
       timestampsInSnapshots: true
   })
+  var fbAuth = firebase.auth();
+  var fbUser = null;
+  var fbUserAirports = db.collection('UserAirports')

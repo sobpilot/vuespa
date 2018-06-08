@@ -1,7 +1,7 @@
 Vue.component("card-airport", {
     template: `
 <div>
-    <v-card dark v-bind:color="this.airport.delay==='true' ? 'error' : 'success' ">
+    <v-card class="mb-1" dark v-bind:color="this.airport.delay==='true' ? 'error' : 'success' ">
         <v-card-text>
             <h4>{{airport.IATA}} {{airport.name}} {{airport.city}} {{airport.state}} 
                 {{airport.weather.meta.updated}}</h4>

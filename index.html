@@ -14,7 +14,7 @@
     <div class="container body-content">
         <div id="app" v-cloak>
             <v-app>
-                <spa-toolbar :title="msg"></spa-toolbar>
+                <spa-toolbar :title="msg" :email="email"></spa-toolbar>
                 <router-view></router-view>
             </v-app>
         </div>
@@ -34,6 +34,7 @@
 
     <!-- Vue Pages and Components here -->
     <script src='./pages/home.vue.js'></script>
+    <script src='./pages/login.vue.js'></script>
     <script src='./pages/airports.vue.js'></script>
     <script src='./pages/components/toolbar.vue.js'></script>
     <script src='./pages/components/airportcard.vue.js'></script>
@@ -49,18 +50,41 @@
             {
                 path: '/airports',
                 component: spaAirports
+            },
+            {
+                path: '/login',
+                component: spaLogin
             }
         ]
 
-        const router = new VueRouter({
+        let router = new VueRouter({
             routes // short for `routes: routes`
+
+        })
+
+        router.beforeEach((to, from, next) => {
+            next()
+        })
+
+
+        fbAuth.onAuthStateChanged(function (user) {
+            //console.log('onAuthStateChanged', user)
+            if (user) {
+                if (app) app.email = user.email
+            } else {
+                if (app) app.email = '??'
+            }
         })
 
         var app = new Vue({
             el: '#app',
             watch: {},
+            mounted() {
+
+            },
             data: {
-                msg: 'Hello'
+                msg: 'Hello',
+                email: ''
             },
             methods: {},
             router
