@@ -6,7 +6,7 @@ var spaAirports = Vue.component("Airports", {
     </v-card-media>
     <v-card-text>
       <p class="red--text" v-if="!GetUser()">
-        Login to Save Selections - Coming Soon!.
+        Login to Save Selections!
       </p>
       <v-layout row>
         <v-flex xs12>
