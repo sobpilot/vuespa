@@ -10,12 +10,9 @@ var spahome = Vue.component("Home", {
             </v-flex>
         </v-layout>
     </v-container>
-<v-parallax height="300" src="https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg?v=ap&w=720&h=100&api=7db9fe61-7414-47b5-9871-e17d87b8b6a0">
-<v-layout column align-center justify-center>
-    <h1 class="pink--text">Airports</h1>
-    <h4 class="pink--text">A Vue.js SPA Demo Application</h4>
-</v-layout>
-</v-parallax>
+    
+    <img  height="100%" width="100%"" src="https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg"></img>
+
 </div>`,
     props: ["title"],
     $_veeValidate: {

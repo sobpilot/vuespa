@@ -2,9 +2,13 @@ var spaAirports = Vue.component("Airports", {
 	template: `<div>
   <h3>Airport Delays</h3>
   <v-card class="mb-2">
-    <v-card-media height="400" src="https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg?v=ap&w=1280&h=720&api=7db9fe61-7414-47b5-9871-e17d87b8b6a0">
+		<div class="text-xs-center">
+		<img  height="70%" width="70%" src="https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg"></img>
+		</div>
+
+   <!--  <v-card-media height="400" src="https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg">
     </v-card-media>
-    <v-card-text>
+   -->  <v-card-text>
       <p class="red--text" v-if="!GetUser()">
         Login to Save Selections!
       </p>
