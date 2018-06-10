@@ -12,7 +12,7 @@ var spaLogin = Vue.component("Login", {
                     <form v-on:submit.prevent='Login'>
                         <div class="title mb-3">
                             <v-text-field v-validate.initial="'required|email|max:50'" data-vv-name="email" :error-messages="errors.collect('email')"
-                              v-model="email" :counter="50" label="Email" required></v-text-field>
+                              v-model="email" type="email" :counter="50" label="Email" required></v-text-field>
                             <v-text-field v-validate.initial="'required|max:20|min:6'" data-vv-name="password" type="password" :error-messages="errors.collect('password')"
                               v-model="password" :counter="20" label="Password" required></v-text-field>
                         </div>
