@@ -4,11 +4,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <title>VUE SPA</title>
+    <title>Airports</title>
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://unpkg.com/vuetify@1.0.17/dist/vuetify.min.css" rel="stylesheet">
     <link rel="icon" href="./images/icons/icon-128x128.png">
     <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/icons/icon-192x192.png">
 </head>
 
 <body>
@@ -31,6 +32,7 @@
     <script src="https://unpkg.com/http-vue-loader"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/vuetify@1.0.17/dist/vuetify.min.js"></script>
+
     <script src="./js/db.js"></script>
     <script src="./js/site.js"></script>
 
@@ -60,8 +62,8 @@
         ]
 
         let router = new VueRouter({
+            //mode: 'history',
             routes // short for `routes: routes`
-
         })
 
         router.beforeEach((to, from, next) => {

@@ -7,8 +7,8 @@ Vue.component("card-airport", {
                     <v-progress-circular indeterminate color="red"></v-progress-circular>
                 </v-flex>
                 <v-flex v-if="airport.name">
-                    <h4>{{airport.IATA}} {{airport.name}} {{airport.city}} {{airport.state}} 
-                    </h4>
+                    <h3>{{airport.IATA}} {{airport.name}} {{airport.city}} {{airport.state}} 
+                    </h3>
                     <div v-if="airport.wxdelay" v-html="airport.wxdelay"></div>
                     <span v-html="airport.weather.meta.updated"></span>
                     <v-spacer></v-spacer>
@@ -21,7 +21,7 @@ Vue.component("card-airport", {
                     </h5>
                 </v-flex>
                 <v-flex v-if="!airport.name">
-                    <h4>FAA Webservice is probably down!</h4>
+                    <h4>Loading Airport Delay Information...</h4>
                     <h4>{{airport.status.reason}}</h4>
                 </v-flex>
             </v-layout>

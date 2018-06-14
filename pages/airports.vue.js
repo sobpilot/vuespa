@@ -1,20 +1,32 @@
 var spaAirports = Vue.component("Airports", {
 	template: `<div>
-  <h3>Airport Delays</h3>
-  <v-card class="mb-2">
-		<div class="text-xs-center">
-		<img  height="70%" width="70%" src="https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg"></img>
-		</div>
+  <v-layout row wrap>
+    <v-flex xs12 sm4>
+      <h3>Airport Delays</h3>
+    </v-flex>
+    <v-flex xs6 sm4>
+      <v-switch label="Map" v-model="showMap"></v-switch>
+    </v-flex>
+    <v-flex xs6 sm4>
+      <v-switch label="Airports" v-model="showSelect"></v-switch>
+    </v-flex>
+  </v-layout>
 
-   <!--  <v-card-media height="400" src="https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg">
-    </v-card-media>
-   -->  <v-card-text>
+  <div v-if="showMap">
+    <div class="text-xs-center">
+      <img height="70%" width="70%" src="https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg"></img>
+    </div>
+  </div>
+
+  <div v-if="showSelect">
+    <div class="px-4">
       <p class="red--text" v-if="!GetUser()">
         Login to Save Selections!
       </p>
       <v-layout row>
         <v-flex xs12>
-          <v-select :items="airportsUS" v-on:input="Change" v-model="airports" item-text="iata" item-value="iata" multiple chips autocomplete label="Airports">
+          <v-select :items="airportsUS" v-on:input="Change" v-model="airports" item-text="iata" item-value="iata" multiple chips autocomplete
+            label="Airports">
             <template slot="selection" slot-scope="data">
               <v-chip :selected="data.iata" :key="JSON.stringify(data.item)" close class="chip--select-multi" @input="data.parent.selectItem(data.item)">
                 {{ data.item.iata }}
@@ -26,9 +38,9 @@ var spaAirports = Vue.component("Airports", {
           </v-select>
         </v-flex>
       </v-layout>
-    </v-card-text>
-	</v-card>
-	<!-- <v-progress-circular v-if="wait" :width="3" indeterminate color="red"></v-progress-circular> -->
+    </div>
+  </div>
+  <!-- <v-progress-circular v-if="wait" :width="3" indeterminate color="red"></v-progress-circular> -->
   <div v-for="airport in airportsSorted" :key="airport">
     <card-airport :airportCode="airport"></card-airport>
     <v-divider></v-divider>
@@ -52,6 +64,14 @@ var spaAirports = Vue.component("Airports", {
 			//console.log('mounted', user, apts)
 		}
 
+	},
+	watch: {
+		showMap() {
+			localStorage.setItem("showMap", this.showMap.toString());
+		},
+		showSelect() {
+			localStorage.setItem("showSelect", this.showSelect.toString());
+		}
 	},
 	computed: {
 		airportsUS: function () {
@@ -78,7 +98,9 @@ var spaAirports = Vue.component("Airports", {
 			airportCode: "",
 			airports: [],
 			airportList: iata,
-			wait: false
+			wait: false,
+			showMap: localStorage.getItem("showMap") == "false" ? false : true,
+			showSelect: localStorage.getItem("showSelect") == "false" ? false : true,
 		};
 	},
 	methods: {

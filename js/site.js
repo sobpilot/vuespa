@@ -28121,7 +28121,7 @@ var iata = [
         "continent": "NA",
         "type": "airport",
         "lat": "30.475943",
-        "size": "medium"
+        "size": "large"
     },
     {
         "iata": "POU",
