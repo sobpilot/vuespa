@@ -9,10 +9,36 @@ var spahome = Vue.component("Home", {
             </v-flex>
         </v-layout>
     </v-container>
-    
+
     <img height="100%" width="100%" src="https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg"></img>
-           
-    <h3>Airport Delays</h3>
+
+    <h3>Arrival/Departure Delays</h3>
+    <template v-for="delay in arriveDepart">
+        <div>
+            <v-icon small>alarm</v-icon> {{delay.airport}}
+            <b>{{delay.minTime}}</b> to
+            <b>{{delay.maxTime}}</b> {{delay.reason}}
+        </div>
+    </template>
+
+    <h3>Ground Delays</h3>
+    <template v-for="delay in groundDelay">
+        <div>
+            <v-icon small>alarm</v-icon> {{delay.airport}}
+            <b>{{delay.avgTime}}</b>
+            {{delay.reason}}
+        </div>
+    </template>
+
+    <h3 v-if="groundStop">Ground Stops</h3>
+    <template v-for="delay in groundStop">
+        <div>
+            <v-icon small>alarm</v-icon> {{delay.airport}}
+            <b>{{delay.endTime}}</b>
+            {{delay.reason}}
+        </div>
+    </template>
+
 </div>`,
     props: ["title"],
     $_veeValidate: {
@@ -20,29 +46,31 @@ var spahome = Vue.component("Home", {
     },
     data() {
         return {
-            delays: [],
-            items: [{
-                    src: 'https://dsx.weather.com/util/image/map/airport_delays_1280x720.jpg?v=ap&w=1280&h=720&api=7db9fe61-7414-47b5-9871-e17d87b8b6a0"'
-                },
-                {
-                    src: 'http://images.intellicast.com/WxImages/SurfaceAnalysis/usa_ICast.gif'
-                },
-                {
-                    src: 'http://images.intellicast.com/WxImages/Satellite/namer.jpg'
-                }
-            ]
-        }
+            arriveDepart: null,
+            groundDelay: null,
+            groundStop: null,
+            result: null
+        };
     },
     created() {
-        //this.GetDelays()
+        this.GetDelays();
     },
     methods: {
         GetDelays() {
-            let url = 'https://soa.smext.faa.gov/asws/api/airport/delays'
-            axios.get(url).then(result => {
-                this.delays = result.data
-                console.log(result)
-            })
+            let url = "https://cors-proxy.htmldriven.com/?url=https://soa.smext.faa.gov/asws/api/airport/delays";
+            axios
+                .get(url)
+                .then(result => {
+                    data = JSON.parse(result.data.body)
+                    this.result = data
+                    this.arriveDepart = data.ArriveDepartDelays.arriveDepart
+                    this.groundDelay = data.GroundDelays.groundDelay
+                    this.groundStop = data.GroundStops.groundStop
+                    //console.log(result);
+                })
+                .catch(error => {
+                    console.log("error", error);
+                });
         }
     }
 });
