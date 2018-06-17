@@ -1,7 +1,7 @@
 Vue.component('spa-toolbar', {
     template: `
         <div>
-            <v-toolbar dark color="primary" class="mb-2">
+            <v-toolbar dark color="primary" class="mb-2" fixed>
                 <v-layout align-center>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
                     <v-toolbar-title class="white--text">{{title}} {{email}}</v-toolbar-title>
@@ -14,6 +14,7 @@ Vue.component('spa-toolbar', {
                     </v-toolbar-items>
                 </v-layout>
             </v-toolbar>
+            <br><br><br>
         </div>
 `,
     props: ['title', 'email'],
