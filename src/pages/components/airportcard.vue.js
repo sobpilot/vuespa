@@ -6,14 +6,18 @@ Vue.component("card-airport", {
                 <v-flex xs1 v-if="wait">
                     <v-progress-circular indeterminate color="red"></v-progress-circular>
                 </v-flex>
-                <v-flex v-if="airport.name">
-                    <h3>{{airport.IATA}} {{airport.name}} {{airport.city}} {{airport.state}} {{wxdata.Meta.Timestamp}}
+                <v-flex v-if="wxdata">
+                   <!--  <h3>{{airport.IATA}} {{airport.name}} {{airport.city}} {{airport.state}} {{wxdata.Meta.Timestamp}}
                     </h3>
                     <div>
                         <b>{{flightRules}}</b>
                         <b>{{wxdata.Translations.Clouds}}</b>
-                    </div>
+                    </div> -->
                     <div>
+                      <h3>
+                        {{wxdata.Info.IATA}} {{wxdata.Info.Name}} {{wxdata.Info.Timestamp}}
+                      </h3>
+                      <div>{{wxdata.Translations.Clouds}}</div>
                         Visibility:
                         <b>{{wxdata.Translations.Visibility}}</b>
                         Wind:
@@ -25,13 +29,12 @@ Vue.component("card-airport", {
                         Altimeter:
                         <b>{{wxdata.Translations.Altimeter}}</b>
                     </div>
-                    <div v-if="airport.wxdelay" v-html="airport.wxdelay"></div>
-                    <span v-html="airport.weather.meta.updated"></span>
+                   <!--  <div v-if="airport.wxdelay" v-html="airport.wxdelay"></div>
+                    <span v-html="airport.weather.meta.updated"></span> -->
 
                 </v-flex>
-                <v-flex v-if="!airport.name">
+                <v-flex v-if="!wxdata">
                     <h4>Loading Airport Delay Information...</h4>
-                    <h4>{{airport.status.reason}}</h4>
                 </v-flex>
             </v-layout>
         </v-card-text>
@@ -44,7 +47,7 @@ Vue.component("card-airport", {
   data: function() {
     return {
       wait: false,
-      wxdata: { Translations: {}, Meta: {} },
+      wxdata: { Info: {}, Translations: {}, Meta: {} },
       flightRules: {},
       airport: {
         status: {},
@@ -61,15 +64,29 @@ Vue.component("card-airport", {
   methods: {
     Lookup: function() {
       //console.log('lookup', this.airportCode)
-      this.wait = true;
+
+      //console.log('body', apt, delay)
+      let wxurl =
+        "https://avwx.rest/api/metar/K" +
+        this.airportCode.toUpperCase() +
+        "?options=info,translate";
+      //console.log("wxurl", wxurl);
+      axios.get(wxurl).then(response => {
+        this.wxdata = response.data;
+        this.flightRules = this.wxdata["Flight-Rules"];
+        //console.log("wxresponse", response);
+        this.wait = false;
+      });
+
+      /* this.wait = true;
       let xurl =
         "https://www.fly.faa.gov/flyfaa/AirportLookup.jsp?q=" +
         this.airportCode +
         "&go=1&html";
-      let xproxy = "https://cors-proxy.htmldriven.com/?url=" + xurl;
-      axios.get(xproxy).then(response => {
+      let xproxy = "https://cors-anywhere.herokuapp.com/" + xurl;
+      fetch(xproxy, { mode: "cors" }).then(response => {
         //console.log('axios', response)
-        let body = response.data.body;
+        let body = response.data;
         let apt = parseIt('<th bgcolor="Silver">', body, "</TH></tr>");
         let delayApt = parseIt('COLOR="#0000CD">', body, " To see");
         let delayDep = parseIt("<b>General Departure", body, ".", true, true);
@@ -79,29 +96,12 @@ Vue.component("card-airport", {
           delay: "false",
           wxdelay: delayApt,
           status: {},
-          weather: {
-            meta: {
-              updated: delayDep + "<br>" + delayArr
-            }
-          }
+          weather: { meta: { updated: delayDep + "<br>" + delayArr } }
         };
         if (delayApt.includes("Due to")) this.airport.delay = "true";
         if (delayDep.includes("Due to")) this.airport.delay = "true";
         if (delayArr.includes("Due to")) this.airport.delay = "true";
-
-        //console.log('body', apt, delay)
-        let wxurl =
-          "https://avwx.rest/api/metar/K" +
-          this.airportCode.toUpperCase() +
-          "?options=info,translate";
-        //console.log("wxurl", wxurl);
-        axios.get(wxurl).then(response => {
-          this.wxdata = response.data;
-          this.flightRules = this.wxdata["Flight-Rules"];
-          //console.log("wxresponse", response);
-          this.wait = false;
-        });
-      });
+      }); */
     }
   }
 });

@@ -35,6 +35,7 @@
 
     <script src="./js/db.js"></script>
     <script src="./js/site.js"></script>
+    <script src="./js/airports.js"></script>
 
     <!-- Vue Pages and Components here -->
     <script src='./pages/home.vue.js'></script>
@@ -48,17 +49,17 @@
         Vue.use(VeeValidate);
 
         const routes = [{
-                path: '/',
-                component: spahome
-            },
-            {
-                path: '/airports',
-                component: spaAirports
-            },
-            {
-                path: '/login',
-                component: spaLogin
-            }
+            path: '/',
+            component: spahome
+        },
+        {
+            path: '/airports',
+            component: spaAirports
+        },
+        {
+            path: '/login',
+            component: spaLogin
+        }
         ]
 
         let router = new VueRouter({

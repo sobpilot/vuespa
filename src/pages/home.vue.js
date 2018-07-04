@@ -60,18 +60,20 @@ var spahome = Vue.component("Home", {
   methods: {
     GetDelays() {
       let url =
-        "https://cors-proxy.htmldriven.com/?url=https://soa.smext.faa.gov/asws/api/airport/delays";
+        "https://cors-anywhere.herokuapp.com/https://soa.smext.faa.gov/asws/api/airport/delays";
       this.showProgress = true;
+      //let resp = fetchGet("https://soa.smext.faa.gov/asws/api/airport/delays");
+      //console.log(resp);
       axios
         .get(url)
         .then(result => {
-          data = JSON.parse(result.data.body);
+          //console.log("result=", result);
+          data = result.data;
           this.result = data;
           this.arriveDepart = data.ArriveDepartDelays.arriveDepart;
           this.groundDelay = data.GroundDelays.groundDelay;
           this.groundStop = data.GroundStops.groundStop;
           this.showProgress = false;
-          //console.log(result);
         })
         .catch(error => {
           console.log("error", error);
