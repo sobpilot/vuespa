@@ -1,6 +1,6 @@
 Vue.component("card-airport", {
   template: `<div>
-    <v-card class="mb-1" dark v-bind:color="(airport.delay==='true') ? 'error' : 'success' ">
+    <v-card class="mb-1" v-bind:color="color">
         <v-card-text>
             <v-layout align-center wrap>
                 <v-flex xs1 v-if="wait">
@@ -15,9 +15,10 @@ Vue.component("card-airport", {
                     </div> -->
                     <div>
                       <h3>
-                        {{wxdata.Info.IATA}} {{wxdata.Info.Name}} {{wxdata.Info.Timestamp}}
+                        {{wxdata.Info.IATA}} {{wxdata.Info.Name}} {{wxdata.Meta.Timestamp}}
                       </h3>
-                      <div>{{wxdata.Translations.Clouds}}</div>
+                      <div><b>{{flightRules}}</b> {{wxdata.Translations.Clouds}}</div>
+                        
                         Visibility:
                         <b>{{wxdata.Translations.Visibility}}</b>
                         Wind:
@@ -60,6 +61,16 @@ Vue.component("card-airport", {
   mounted() {
     this.Lookup();
     //console.log('created', this.airportCode)
+  },
+  computed: {
+    color() {
+      if (this.flightRules == "VFR") return "green white--text";
+      else if (this.flightRules === "IFR") return "red white--text";
+      else if (this.flightRules === "MARGINAL") return "yellow black--text";
+      else {
+        return "grey lighten-2 black--text";
+      }
+    }
   },
   methods: {
     Lookup: function() {
