@@ -1,8 +1,8 @@
 var spaAirports = Vue.component("Airports", {
 	template: `<div>
-  <v-layout row wrap>
+  <v-layout row wrap align-center>
     <v-flex xs12 sm4>
-      <h3>Airport Delays</h3>
+      <h3>Airport Metars</h3>
     </v-flex>
     <v-flex xs6 sm4>
       <v-switch label="Map" v-model="showMap"></v-switch>
