@@ -1,5 +1,6 @@
 var spahome = Vue.component("Home", {
   template: `<div>
+    <div style="margin-bottom: 10px;"></div>
     <v-card class=px-3 color="primary" dark>
         <h3 class="display-2">Welcome to Airports</h3>
         <span class="subheading">Monitor the latest Airport Delays at the largest US airports.</span>

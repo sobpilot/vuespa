@@ -6,7 +6,7 @@ Vue.component("card-airport", {
                 <v-flex xs1 v-if="wait">
                     <v-progress-circular indeterminate color="red"></v-progress-circular>
                 </v-flex>
-                <v-flex v-if="wxdata">
+                <v-flex v-if="flightRules">
                    <!--  <h3>{{airport.IATA}} {{airport.name}} {{airport.city}} {{airport.state}} {{wxdata.Meta.Timestamp}}
                     </h3>
                     <div>
@@ -15,27 +15,22 @@ Vue.component("card-airport", {
                     </div> -->
                     <div>
                       <h3>
-                        {{wxdata.Info.IATA}} {{wxdata.Info.Name}} {{wxdata.Meta.Timestamp}}
+                        {{airportCode}} {{wxdata.Info.IATA}} {{wxdata.Info.Name}} {{wxdata.Meta.Timestamp}}
                       </h3>
-                      <div><b>{{flightRules}}</b> {{wxdata.Translations.Clouds}}</div>
-                        
-                        Visibility:
-                        <b>{{wxdata.Translations.Visibility}}</b>
-                        Wind:
-                        <b>{{wxdata.Translations.Wind}}</b>
-                        Temperature:
-                        <b>{{wxdata.Translations.Temperature}}</b>
-                        Dewpoint:
-                        <b>{{wxdata.Translations.Dewpoint}}</b>
-                        Altimeter:
-                        <b>{{wxdata.Translations.Altimeter}}</b>
+                      <div><b>{{flightRules}}</b> {{wxdata.Translate['Cloud-List']}}
+                        <b>Visibility:</b> {{wxdata.Translate.Visibility}}
+                      </div>
+                        <b>Wind:</b> {{wxdata.Translate.Wind}}
+                        <b>Temperature:</b> {{wxdata.Translate.Temperature}}
+                        <b>Dewpoint:</b> {{wxdata.Translate.Dewpoint}}
+                        <b>Altimeter:</b> {{wxdata.Translate.Altimeter}}
                     </div>
                    <!--  <div v-if="airport.wxdelay" v-html="airport.wxdelay"></div>
                     <span v-html="airport.weather.meta.updated"></span> -->
 
                 </v-flex>
-                <v-flex v-if="!wxdata">
-                    <h4>Loading Airport Delay Information...</h4>
+                <v-flex v-if="!flightRules">
+                    <h4>Loading {{airportCode}} Airport Information...</h4>
                 </v-flex>
             </v-layout>
         </v-card-text>
@@ -45,49 +40,59 @@ Vue.component("card-airport", {
   $_veeValidate: {
     validator: "new"
   },
-  data: function() {
+  data: function () {
     return {
       wait: false,
       wxdata: { Info: {}, Translations: {}, Meta: {} },
-      flightRules: {},
+      flightRules: null,
       airport: {
         status: {},
         weather: {
           meta: {}
         }
       }
-    };
+    }
   },
   mounted() {
-    this.Lookup();
+    this.Lookup()
     //console.log('created', this.airportCode)
   },
   computed: {
     color() {
-      if (this.flightRules == "VFR") return "green white--text";
-      else if (this.flightRules === "IFR") return "red white--text";
-      else if (this.flightRules === "MARGINAL") return "yellow black--text";
+      if (this.flightRules == "VFR") return "green white--text"
+      else if (this.flightRules === "IFR") return "red white--text"
+      else if (this.flightRules === "LIFR") return "purple white--text"
+      else if (this.flightRules === "MVFR") return "yellow black--text"
       else {
-        return "grey lighten-2 black--text";
+        return "grey lighten-2 black--text"
       }
     }
   },
   methods: {
-    Lookup: function() {
+    Lookup: function () {
       //console.log('lookup', this.airportCode)
 
       //console.log('body', apt, delay)
+      // "https://cors.io/?" +
       let wxurl =
         "https://avwx.rest/api/metar/K" +
         this.airportCode.toUpperCase() +
-        "?options=info,translate";
+        "?options=info,translate"
       //console.log("wxurl", wxurl);
-      axios.get(wxurl).then(response => {
-        this.wxdata = response.data;
-        this.flightRules = this.wxdata["Flight-Rules"];
+      this.wait = true
+      axios({
+        method: 'get',
+        url: wxurl,
+        //headers: { 'Origin': 'https://example.com' }
+      }).then(response => {
+        this.wxdata = response.data
+        this.flightRules = this.wxdata["Flight-Rules"]
         //console.log("wxresponse", response);
-        this.wait = false;
-      });
+        this.wait = false
+      }).catch(err => {
+        console.err('err', err)
+        this.wait = false
+      })
 
       /* this.wait = true;
       let xurl =
@@ -115,20 +120,20 @@ Vue.component("card-airport", {
       }); */
     }
   }
-});
+})
 
-var parseIt = function(
+var parseIt = function (
   prefix,
   str,
   suffix,
   keepPrefix = false,
   keepSuffix = false
 ) {
-  let spos = str.indexOf(prefix);
-  let epos = str.indexOf(suffix, spos);
-  if (spos < 0 || epos < 0) return "";
-  if (!keepPrefix) spos = spos + prefix.length;
-  if (keepSuffix) epos = epos + suffix.length;
-  let subText = str.substring(spos, epos);
-  return subText.trim();
-};
+  let spos = str.indexOf(prefix)
+  let epos = str.indexOf(suffix, spos)
+  if (spos < 0 || epos < 0) return ""
+  if (!keepPrefix) spos = spos + prefix.length
+  if (keepSuffix) epos = epos + suffix.length
+  let subText = str.substring(spos, epos)
+  return subText.trim()
+}
