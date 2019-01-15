@@ -1,57 +1,56 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-        <title>Airports</title>
-        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
-        <link rel="icon" href="./images/icons/icon-128x128.png">
-        <link rel="manifest" href="./manifest.json">
-        <link rel="apple-touch-icon" sizes="180x180" href="./images/icons/icon-192x192.png">
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Airports</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="icon" href="./images/icons/icon-128x128.png">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/icons/icon-192x192.png">
+  </head>
 
-    <body>
+  <body>
 
-        <div class="container body-content">
-            <div id="app" v-cloak>
-                <v-app>
-                    <spa-toolbar :title="msg" :email="email"></spa-toolbar>
-                    <router-view></router-view>
-                </v-app>
-            </div>
-        </div>
+    <div class="container body-content">
+      <div id="app" v-cloak>
+        <v-app>
+          <spa-toolbar :title="msg" :email="email"></spa-toolbar>
+          <router-view></router-view>
+        </v-app>
+      </div>
+    </div>
 
-        <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/moment@2.20.1/moment.min.js"></script>
-        <script src="https://unpkg.com/vee-validate@2.0.0-rc.25/dist/vee-validate.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
-        <script src="https://unpkg.com/http-vue-loader"></script>
-        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.20.1/moment.min.js"></script>
+    <script src="https://unpkg.com/vee-validate@2.0.0-rc.25/dist/vee-validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.js"></script>
 
-        <script src="./js/db.js"></script>
-        <script src="./js/site.js"></script>
-        <script src="./js/airports.js"></script>
+    <script src="./js/db.min.js"></script>
+    <script src="./js/site.js"></script>
+    <script src="./js/airports.min.js"></script>
 
-        <!-- Vue Pages and Components here -->
-        <script src='./pages/home.vue.js'></script>
-        <script src='./pages/login.vue.js'></script>
-        <script src='./pages/airports.vue.js'></script>
-        <script src='./pages/components/toolbar.vue.js'></script>
-        <script src='./pages/components/airportcard.vue.js'></script>
-        <script src='./pages/Cams/camList.vue.js'></script>
+    <!-- Vue Pages and Components here -->
+    <script src='./pages/home.vue.js'></script>
+    <script src='./pages/login.vue.js'></script>
+    <script src='./pages/airports.vue.js'></script>
+    <script src='./pages/components/toolbar.vue.js'></script>
+    <script src='./pages/components/airportcard.vue.js'></script>
+    <script src='./pages/Cams/camList.vue.js'></script>
 
-        <script>
+    <script>
         Vue.use(VueRouter);
         Vue.use(VeeValidate);
 
         const routes = [{
             path: '/',
-            component: spahome
+            component: spaHome
         },
         {
             path: '/airports',
@@ -100,6 +99,6 @@
             router
         })
     </script>
-    </body>
+  </body>
 
 </html>

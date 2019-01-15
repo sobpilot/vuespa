@@ -33,7 +33,7 @@ Vue.component("spa-toolbar", {
             </v-toolbar-items>
         </v-layout>
     </v-toolbar>
-    <div style="margin-bottom: 30px;"></div>
+    <div style="margin-bottom: 40px;"></div>
 </div>`,
   props: ["title", "email"],
   $_veeValidate: {

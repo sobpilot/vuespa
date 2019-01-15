@@ -1,6 +1,7 @@
 var spaLogin = Vue.component("Login", {
   template: `<div>
-    <v-card color="grey lighten-2">
+    <br>
+    <v-card color="grey lighten-2" max-width="500">
         <v-container fill-height>
             <v-layout align-center>
                 <v-flex>
@@ -23,6 +24,7 @@ var spaLogin = Vue.component("Login", {
             </v-layout>
         </v-container>
     </v-card>
+    <v-btn v-if="!errors.has('email')" small flat color="warning" v-on:click="resetPassword()">Reset My Password</v-btn>
 </div>`,
   props: ["title"],
   $_veeValidate: {
@@ -47,7 +49,7 @@ var spaLogin = Vue.component("Login", {
         fbAuth.signInWithEmailAndPassword(this.email, this.password).catch(error => {
           //console.log(error)
           this.errorMsg = error.message
-          fbAuth.signOut().then(function () {}).catch(function (error) {
+          fbAuth.signOut().then(function () { }).catch(function (error) {
             this.errorMsg += error.message
             // An error happened.
           });
@@ -67,6 +69,13 @@ var spaLogin = Vue.component("Login", {
     },
     NewAccount() {
       this.mode = 'new account'
+    },
+    resetPassword() {
+      fbAuth.sendPasswordResetEmail(this.email).then(() => {
+        this.errorMsg = 'Reset Email Sent...'
+      }).catch((err) => {
+        this.errorMsg = err.message
+      });
     }
   }
 });

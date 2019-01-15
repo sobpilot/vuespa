@@ -14,11 +14,14 @@ var spaCamList = Vue.component('CamList', {
           <v-card-title>
             <h4>{{ props.item.description }}</h4>
             <v-spacer></v-spacer>
-            <v-icon small class="mr-2" v-on:click="editItem(props.item)">edit</v-icon>
+            <v-icon small v-on:click="bigImg(props.item)">open_in_new</v-icon>
+            <v-icon small class="mx-2" v-on:click="editItem(props.item)">edit</v-icon>
             <v-icon small v-on:click="deleteItem(props.item)">delete</v-icon>
           </v-card-title>
           <v-divider></v-divider>
-          <v-img :src="props.item.url"></v-img>
+          <div >
+            <v-img :src="props.item.url" v-on:click="bigImg(props.item)"></v-img>
+          </div>
         </v-card>
       </v-flex>
     </v-data-iterator>
@@ -52,6 +55,19 @@ var spaCamList = Vue.component('CamList', {
     </v-dialog>
   </div>
 
+  <div>
+    <v-dialog v-model="showImg" fullscreen>
+      <v-card>
+        <v-card-title>
+          <h3>{{currentItem.description}}</h3>
+          <v-spacer></v-spacer>
+          <v-icon v-on:click="showImg=false">cancel</v-icon>
+        </v-card-title>
+        <v-img :src="currentItem.url"></v-img>
+      </v-card>
+    </v-dialog>
+  </div>
+
 </div>`,
   props: ['title'],
   $_veeValidate: {
@@ -62,6 +78,8 @@ var spaCamList = Vue.component('CamList', {
       id: 0,
       dialog: false,
       loading: false,
+      showImg: false,
+      currentItem: {},
       editedItem: {
         description: '',
         url: ''
@@ -96,6 +114,11 @@ var spaCamList = Vue.component('CamList', {
           this.loading = false
         })
       }
+    },
+
+    bigImg(item) {
+      this.currentItem = item
+      this.showImg = true
     },
 
     editItem(item) {

@@ -1,4 +1,4 @@
-var spahome = Vue.component("Home", {
+var spaHome = Vue.component("Home", {
   template: `<div>
     <div style="margin-bottom: 10px;"></div>
     <v-card class=px-3 color="primary" dark>
